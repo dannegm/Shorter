@@ -52,7 +52,6 @@ class Short
 
 		$step = $step -1;
 		$offset = $step * 10;
-		$offset = $offset + 1;
 
 		$query = "SELECT * FROM `{$this->_tb_short}` ORDER BY `id` DESC LIMIT {$offset},10";
 
