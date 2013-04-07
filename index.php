@@ -43,6 +43,7 @@ if($s == 'not'):
 		<table class="table table-striped">
 			<thead>
 				<tr>
+					<th>#</th>
 					<th>Url corta</th>
 					<th>Url real</th>
 				</tr>

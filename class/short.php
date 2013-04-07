@@ -61,6 +61,7 @@ class Short
 			$res = Array();
 			while($result = $get_data->fetch_assoc()){
 				$res[] = Array(
+					'index' => $result['id'],
 					'id' => $result['uid'],
 					'url' => $result['url'],
 					'date' => $result['date']
