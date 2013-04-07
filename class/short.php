@@ -30,14 +30,14 @@ class Short
 	}
 
 	public function getUrl($uid){
-		return $this->consult('url', $uid);
+		return $this->_consult('url', $uid);
 	}
 
 	public function error (){
 		return $this->_error;
 	}
 
-	public function consult ($what, $who) {
+	private function _consult ($what, $who) {
 		$query = "SELECT `{$what}` FROM `{$this->_tb_short}` WHERE `uid` = '{$who}'";
 		$conexion = $this->_mysqli;
 		if ($get_data = $conexion->query($query)){
@@ -70,12 +70,24 @@ class Short
 		}
 	}
 
+
+
+	private function _giveMeUID () {
+		$uid = genKey();
+		$existe = $this->_exist($uid);
+		if ($existe){
+			$this->_giveMeUID();
+		}else{
+			return $uid;
+		}
+	}
+
 	// Functions
 
 	public function shorter ($data){
 		$conexion = $this->_mysqli;
 
-		$uid = genKey();
+		$uid = $this->_giveMeUID();
 			$this->_uid = $uid;
 
 		$url = $data;
@@ -95,6 +107,18 @@ class Short
 			return false;
 		}else{
 			return true;
+		}
+	}
+
+	private function _exist ($who){
+		$conexion = $this->_mysqli;
+		$sql = "SELECT * FROM `{$this->_tb_short}` WHERE `uid` = '{$who}'";
+		$conexion->query($sql);
+		$n = $conexion->affected_rows;
+		if ($n > 1) {
+			return true;
+		}else{
+			return false;
 		}
 	}
 
