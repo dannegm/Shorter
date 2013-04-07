@@ -10,7 +10,7 @@
 		define("domain", $_SERVER['SERVER_NAME']);
 		define("db_server", "localhost");
 		define("db_user", "root");
-		define("db_password", "A3dS4fD5g");
+		define("db_password", "");
 		define("db_bdata", "short_url");
 	}
 
