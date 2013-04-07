@@ -1,12 +1,11 @@
 var step = 1;
 
 function load_urls() {
-	$.getJSON(
-		'json/listar.php?step=' + step,
+	var JSONUrl = 'json/listar.php?step=' + step;
+	$.getJSON( json,
 		function(r){
 			$('#lister').html('')
-			console.log('Cargado JSON: json/listar.php');
-			console.log('- Contenido: ' + r);
+			console.log('Cargado JSON: ' + JSONUrl);
 			for(x in r){
 				var tmp = '<tr><td>' + r[x].index + '</td><td><a href="' + window.location.href + 'go/' + r[x].id + '">' + window.location.href + 'go/' + r[x].id + '</a></td><td><a href="' + r[x].url + '">' + r[x].url + '</a></td></tr>';
 				$('#lister').append(tmp);
