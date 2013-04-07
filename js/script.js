@@ -2,7 +2,7 @@ var step = 1;
 
 function load_urls() {
 	var JSONUrl = 'json/listar.php?step=' + step;
-	$.getJSON( json,
+	$.getJSON( JSONUrl,
 		function(r){
 			$('#lister').html('')
 			console.log('Cargado JSON: ' + JSONUrl);
