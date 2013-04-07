@@ -8,7 +8,7 @@ function load_urls() {
 			console.log('Cargado JSON: json/listar.php');
 			console.log('- Contenido: ' + r);
 			for(x in r){
-				var tmp = '<tr><td><a href="' + window.location.href + r[x].id + '">' + window.location.href + r[x].id + '</a></td><td><a href="' + r[x].url + '">' + r[x].url + '</a></td></tr>';
+				var tmp = '<tr><td><a href="' + window.location.href + 'go/' + r[x].id + '">' + window.location.href + 'go/' + r[x].id + '</a></td><td><a href="' + r[x].url + '">' + r[x].url + '</a></td></tr>';
 				$('#lister').append(tmp);
 			}
 			hasTargetBlank();
@@ -26,9 +26,9 @@ function shorter() {
 		function(r){
 			var res = r.split(':');
 			if(res[0]=='1'){
-				$('#newLink').attr('href', window.location.href + res[1]).text( window.location.href + res[1]);
+				$('#newLink').attr('href', window.location.href + 'go/' + res[1]).text( window.location.href + 'go/' + res[1]);
 
-				var tmp = '<tr style="font-size: 18px"><td><a href="' + window.location.href + res[1] + '">' + window.location.href + res[1] + '</a></td><td><a href="' + $('#url').val() + '">' + $('#url').val() + '</a></td></tr>';
+				var tmp = '<tr style="font-size: 18px"><td><a href="' + window.location.href + 'go/' + res[1] + '">' + window.location.href + 'go/' + res[1] + '</a></td><td><a href="' + $('#url').val() + '">' + $('#url').val() + '</a></td></tr>';
 				var tr1 = $('tr')[1];
 				$(tmp).insertBefore(tr1);
 
