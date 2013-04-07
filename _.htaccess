@@ -1,0 +1,3 @@
+RewriteEngine on
+ 
+RewriteRule ^go/(.+) index.php?s=$1
