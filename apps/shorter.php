@@ -13,7 +13,12 @@ if ($do == 'it') {
 	if ($shorter){
 		echo '1:' . $short->uid();
 	}else{
-		echo '0:' . $short->error();
+		if ($short->error() == 'url_exist'){
+			$uri = $short->find_url($data);
+			echo "0:1:" . $uri;
+		}else{
+			echo '0:' . $short->error();
+		}
 	}
 }
 ?>

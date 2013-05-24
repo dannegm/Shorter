@@ -3,7 +3,7 @@
 function genKey (){
 	$rCh = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	$key = "";
-	for ( $i = 0; $i < 5; $i++ ){
+	for ( $i = 0; $i < 8; $i++ ){
 		$key .= $rCh{ rand(0,61) };
 	}
 	return $key;

@@ -37,6 +37,8 @@ if(
 			<span id="elink" class="label label-inverse">
 	 			<a id="newLink" target="_blank"></a>
 			</span>
+
+			<span id="exist">Ya existía en nuestra base de datos</span>
 		</form>
 	</section>
 
@@ -68,6 +70,7 @@ else:
 		header('location: ..');
 	}
 
+	$short->addVisita($s);
 	header('location: ' . $url);
 
 	echo "Redireccionando a (" . $s . ")" . $url;

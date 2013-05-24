@@ -16,30 +16,37 @@ function load_urls() {
 }
 
 function shorter() {
-	$.post(
-		'apps/shorter.php',
-		{
-			'do': 'it',
-			'url': $('#url').val()
-		},
-		function(r){
-			var res = r.split(':');
-			if(res[0]=='1'){
-				$('#newLink').attr('href', window.location.href + '' + res[1]).text( window.location.href + '' + res[1]);
+	$('#exist').css({'display':'none'});
+	if ($('#url').val() == ''){
+		alert('Error: debes escribir una direciión válida');
+	}else{
+		$.post(
+			'apps/shorter.php',
+			{
+				'do': 'it',
+				'url': $('#url').val()
+			},
+			function(r){
+				var res = r.split(':');
+				if(res[0]=='1'){
+					$('#newLink').attr('href', window.location.href + '' + res[1]).text( window.location.href + '' + res[1]);
 
-				var tmp = '<tr><td>?</td><td><a href="' + window.location.href + '' + res[1] + '">' + window.location.href + '' + res[1] + '</a></td><td><a href="' + $('#url').val() + '">' + $('#url').val() + '</a></td></tr>';
-				var tr1 = $('tr')[1];
-				$(tmp).insertBefore(tr1);
-
-				$('#url').val('');
-				hasTargetBlank();
-
-				$('#elink').fadeIn();
-			}else{
-				alert('Ha ocurrido un error: ' + r);
+					load_urls();
+					$('#url').val('')
+					$('#elink').fadeIn();
+				}else{
+					if (res[1] == '1'){
+						$('#newLink').attr('href', window.location.href + '' + res[2]).text( window.location.href + '' + res[2]);
+						$('#url').val('')
+						$('#elink').fadeIn();
+						$('#exist').css({'display':'block'});
+					}else{
+						alert('Error: ' + res[1]);
+					}
+				}
 			}
-		}
-	);
+		);
+	}
 }
 
 function hasTargetBlank () {

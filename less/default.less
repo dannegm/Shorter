@@ -106,6 +106,28 @@ form {
 			text-decoration: none;
 		}
 	}
+	#exist {
+		background: #8ad88a;
+		margin: 20px;
+		padding: 10px;
+		font-size: 12px;
+		color: #222;
+		display: none;
+
+		&:before {
+			content: ' ';
+			color: transparent;
+			background: none;
+			display: block;
+			border: 10px solid transparent;
+			border-bottom: 10px solid #8ad88a;
+			position: absolute;
+			margin-top: -30px;
+			margin-left: 10px;
+			height: 0;
+			width: 0;
+		}
+	}
 }
 
 #container {
