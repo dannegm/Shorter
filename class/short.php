@@ -53,7 +53,7 @@ class Short
 		$step = $step -1;
 		$offset = $step * 10;
 
-		$query = "SELECT * FROM `{$this->_tb_short}` ORDER BY `id` DESC LIMIT {$offset},10";
+		$query = "SELECT * FROM `{$this->_tb_short}` ORDER BY `id` DESC"; // LIMIT {$offset},10";
 
 		$conexion = $this->_mysqli;
 		if ($get_data = $conexion->query($query)){
