@@ -2,7 +2,12 @@
 
 $s = isset($_GET['s']) ? $_GET['s'] : 'not';
 
-if($s == 'not'):
+if(
+	($s == 'not') ||
+	($s == null) ||
+	($s == '') ||
+	(empty($s))
+):
 
 ?>
 <!doctype html>
@@ -65,7 +70,7 @@ else:
 
 	header('location: ' . $url);
 
-	echo "Redireccionando a " . $url;
+	echo "Redireccionando a (" . $s . ")" . $url;
 
 endif;
 ?>
