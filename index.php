@@ -22,7 +22,7 @@ if($s == 'not'):
 </head>
 <body>
 	<section id="sidebar">
-		<h1>Dannegm</h1>
+		<h1><a href="http://dannegm.pro">Dannegm</a></h1>
 		<h2>Shorter</h2>
 
 		<form>
