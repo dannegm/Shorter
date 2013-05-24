@@ -14,6 +14,7 @@ CREATE TABLE `links` (
   `uid` text NOT NULL,
   `url` text NOT NULL,
   `date` text NOT NULL,
+  `visitas` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
