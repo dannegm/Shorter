@@ -63,7 +63,8 @@ class Short
 					'index' => $result['id'],
 					'id' => $result['uid'],
 					'url' => $result['url'],
-					'date' => $result['date']
+					'date' => $result['date'],
+					'views' => $result['visitas']
 				);
 			}
 			return $res;
@@ -208,7 +209,7 @@ class Short
 	}
 
 	public function addVisita ($who) {
-		$actuales = $this->_consult('visitas', $uid);
+		$actuales = $this->_consult('visitas', $who);
 		$nueva = $actuales + 1;
 		$this->_update($who, 'visitas', $nueva);
 	}
