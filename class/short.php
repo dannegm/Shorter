@@ -87,65 +87,63 @@ class Short
 
 	public function shorter ($data){
 
-				$f_cero = long_text($data, 256);
-				if ($f_cero){
+		$f_cero = long_text($data, 256);
+		if ($f_cero){
 
-					$f_uno = validate_url($data);
-					if($f_uno){
+			$f_uno = validate_url($data);
+			if($f_uno){
 
-						$f_dos = validate_site_exist($data);
-						if ($f_dos){
+				$f_dos = validate_site_exist($data);
+				if ($f_dos){
 
-							$f_tres = black_list_filter($data);
-							if ( !$f_tres ){
+					$f_tres = black_list_filter($data);
+					if ( !$f_tres ){
 
-								$f_cuatro = $this->_exist_url($data);
-								if ( !$f_cuatro ) {
-									$conexion = $this->_mysqli;
+						$f_cuatro = $this->_exist_url($data);
+						if ( !$f_cuatro ) {
+							$conexion = $this->_mysqli;
 
-									$uid = $this->_giveMeUID();
-										$this->_uid = $uid;
+							$uid = $this->_giveMeUID();
+								$this->_uid = $uid;
 
-									$url = $data;
+							$url = $data;
 
-									date_default_timezone_set("America/Mexico_City");
-										$date = date("w j-m-Y g:i:s:a");
+							date_default_timezone_set("America/Mexico_City");
+								$date = date("w j-m-Y g:i:s:a");
 
-									$query = "INSERT INTO `{$this->_tb_short}` (`uid`, `url`, `date`)"
-										. "VALUES (?, ?, ?)"
-									;
-									$ins = $conexion->prepare($query);
-									$ins->bind_param( 'sss', $uid, $url, $date );
-									$insert = $ins->execute();
+							$query = "INSERT INTO `{$this->_tb_short}` (`uid`, `url`, `date`)"
+								. "VALUES (?, ?, ?)"
+							;
+							$ins = $conexion->prepare($query);
+							$ins->bind_param( 'sss', $uid, $url, $date );
+							$insert = $ins->execute();
 
-									if ( !$insert ) {
-										$this->_error = "No se pudo crear url corta";
-										return false;
-									}else{
-										return true;
-									}
-								}else{
-									$this->_error = "url_exist";
-									return false;
-								}
-							}else{
-								$this->_error = "Esta url no está permitida";
+							if ( !$insert ) {
+								$this->_error = "No se pudo crear url corta";
 								return false;
+							}else{
+								return true;
 							}
 						}else{
-							$this->_error = "El sitio no existe";
+							$this->_error = "url_exist";
 							return false;
 						}
 					}else{
-						$this->_error = "No es una url válida";
+						$this->_error = "Esta url no está permitida";
 						return false;
 					}
 				}else{
-					$this->_error = "El texto es demasiado grande";
+					$this->_error = "El sitio no existe";
 					return false;
 				}
-			//}
-		//}
+			}else{
+				$this->_error = "No es una url válida";
+				return false;
+			}
+		}else{
+			$this->_error = "El texto es demasiado grande";
+			return false;
+		}
 	}
 
 	private function _exist ($who){
