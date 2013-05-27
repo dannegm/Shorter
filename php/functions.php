@@ -3,10 +3,52 @@
 function genKey (){
 	$rCh = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	$key = "";
-	for ( $i = 0; $i < 8; $i++ ){
+	for ( $i = 0; $i < 5; $i++ ){
 		$key .= $rCh{ rand(0,61) };
 	}
 	return $key;
+}
+function validate_url($url) {
+    return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
+}
+function long_text($txt, $long){
+	if ( strlen($txt) > $long ){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function black_list_filter ($url) {
+	$domain = explode('/', $url);
+
+	if ( isset($domain[2]) ){
+		$domain = $domain[2];
+		$black_list = Array(
+			'redtube.com',
+			'xvideos.com',
+			'pornhub.com',
+			'poringa.com',
+			'dnn.im'
+		);
+		if ( in_array($domain, $black_list) ){
+			return true;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
+function validate_site_exist ($url) {
+	$fp = @fopen($url, "r");
+	if( $fp ){
+		return true;
+	}else{
+		return false;
+	}
+	@fclose($fp);
 }
 
 // Poner texto a los meses

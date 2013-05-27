@@ -51,9 +51,9 @@ class Short
 		$conexion = $this->_mysqli;
 
 		$step = $step -1;
-		$offset = $step * 10;
+		$offset = $step * 20;
 
-		$query = "SELECT * FROM `{$this->_tb_short}` ORDER BY `id` DESC"; // LIMIT {$offset},10";
+		$query = "SELECT * FROM `{$this->_tb_short}` ORDER BY `id` DESC LIMIT {$offset},20";
 
 		$conexion = $this->_mysqli;
 		if ($get_data = $conexion->query($query)){
@@ -87,45 +87,65 @@ class Short
 
 	public function shorter ($data){
 
-		//$f_uno = $this->_validate_site_exist($data);
+				$f_cero = long_text($data, 256);
+				if ($f_cero){
 
-			$f_dos = $this->_black_list_filter($data);
-			if ( !$f_dos ){
+					$f_uno = validate_url($data);
+					if($f_uno){
 
-				$f_tres = $this->_exist_url($data);
-				if ( !$f_tres ) {
-					$conexion = $this->_mysqli;
+						$f_dos = validate_site_exist($data);
+						if ($f_dos){
 
-					$uid = $this->_giveMeUID();
-						$this->_uid = $uid;
+							$f_tres = black_list_filter($data);
+							if ( !$f_tres ){
 
-					$url = $data;
+								$f_cuatro = $this->_exist_url($data);
+								if ( !$f_cuatro ) {
+									$conexion = $this->_mysqli;
 
-					date_default_timezone_set("America/Mexico_City");
-						$date = date("w j-m-Y g:i:s:a");
+									$uid = $this->_giveMeUID();
+										$this->_uid = $uid;
 
-					$query = "INSERT INTO `{$this->_tb_short}` (`uid`, `url`, `date`)"
-						. "VALUES (?, ?, ?)"
-					;
-					$ins = $conexion->prepare($query);
-					$ins->bind_param( 'sss', $uid, $url, $date );
-					$insert = $ins->execute();
+									$url = $data;
 
-					if ( !$insert ) {
-						$this->_error = "No se pudo crear url corta";
-						return false;
+									date_default_timezone_set("America/Mexico_City");
+										$date = date("w j-m-Y g:i:s:a");
+
+									$query = "INSERT INTO `{$this->_tb_short}` (`uid`, `url`, `date`)"
+										. "VALUES (?, ?, ?)"
+									;
+									$ins = $conexion->prepare($query);
+									$ins->bind_param( 'sss', $uid, $url, $date );
+									$insert = $ins->execute();
+
+									if ( !$insert ) {
+										$this->_error = "No se pudo crear url corta";
+										return false;
+									}else{
+										return true;
+									}
+								}else{
+									$this->_error = "url_exist";
+									return false;
+								}
+							}else{
+								$this->_error = "Esta url no está permitida";
+								return false;
+							}
+						}else{
+							$this->_error = "El sitio no existe";
+							return false;
+						}
 					}else{
-						return true;
+						$this->_error = "No es una url válida";
+						return false;
 					}
 				}else{
-					$this->_error = "url_exist";
+					$this->_error = "El texto es demasiado grande";
 					return false;
 				}
-			}else{
-				$this->_error = "Esta url no está permitida";
-				return false;
-			}
-		
+			//}
+		//}
 	}
 
 	private function _exist ($who){
@@ -162,37 +182,6 @@ class Short
 			}
 		}
 	}
-
-	private function _black_list_filter ($url) {
-		$domain = explode('/', $url);
-
-		if ( isset($domain[2]) ){
-			$domain = $domain[2];
-			$black_list = Array(
-				'redtube.com',
-				'xvideos.com',
-				'pornhub.com',
-				'poringa.com',
-				'dnn.im'
-			);
-			if ( in_array($domain, $black_list) ){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}
-
-/*	private function _validate_site_exist ($url) {
-		$pag = file_get_contents($url);
-		if ($pag){
-			return true;
-		}else{
-			return false;
-		}
-	} */
 
 	private function _update ($who, $what, $newVal){
 		$conexion = $this->_mysqli;

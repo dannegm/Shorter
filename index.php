@@ -24,6 +24,15 @@ if(
 	<script src="js/jquery.min.js"></script>
 	<script src="js/less.min.js"></script>
 	<script src="js/script.js"></script>
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-30390599-2', 'dnn.im');
+		ga('send', 'pageview');
+	</script>
 </head>
 <body>
 	<section id="sidebar">
@@ -38,8 +47,18 @@ if(
 	 			<a id="newLink" target="_blank"></a>
 			</span>
 
+			<span id="hasCopy">Se ha copiado al portapapeles</span>
 			<span id="exist">Ya existía en nuestra base de datos</span>
+
+			<figure>
+				<img id="qr" src="apps/qr.php" />
+			</figure>
 		</form>
+
+		<p>
+			<span>Proyecto desarollodado por <a href="http://github.com/dannegm">@dannegm</a>, no se te olvide seguir el proyecto en github.</span>
+			<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=dannegm&repo=Shorter&type=fork&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="260px" height="30px"></iframe>
+		</p>
 	</section>
 
 	<section id="container">
