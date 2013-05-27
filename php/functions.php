@@ -42,13 +42,27 @@ function black_list_filter ($url) {
 }
 
 function validate_site_exist ($url) {
-	$fp = @fopen($url, "r");
-	if( $fp ){
+	$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'DannegmBot/Alpha 1.0');
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+	$resp = curl_exec($ch);
+		$site = explode("\n\r\n", $resp);
+		$headers = $site[0];
+		$body = $site[1];
+
+	curl_close($ch);
+
+	$headers_array = explode("\n", $headers);
+		$http_code = $headers_array[0];
+
+	if ( preg_match('/OK/i', $http_code) ) {
 		return true;
 	}else{
 		return false;
 	}
-	@fclose($fp);
 }
 
 // Poner texto a los meses
