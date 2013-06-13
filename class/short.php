@@ -23,8 +23,6 @@ class Short
 		}
 	}
 
-	// Getter
-
 	public function uid (){
 		return $this->_uid;
 	}
@@ -64,14 +62,13 @@ class Short
 					'id' => $result['uid'],
 					'url' => $result['url'],
 					'date' => $result['date'],
-					'views' => $result['visitas']
+					'title' => $result['title'],
+					'views' => $result['shows']
 				);
 			}
 			return $res;
 		}
 	}
-
-
 
 	private function _giveMeUID () {
 		$uid = genKey();
@@ -82,8 +79,6 @@ class Short
 			return $uid;
 		}
 	}
-
-	// Functions
 
 	public function shorter ($data){
 
@@ -111,11 +106,14 @@ class Short
 							date_default_timezone_set("America/Mexico_City");
 								$date = date("w j-m-Y g:i:s:a");
 
-							$query = "INSERT INTO `{$this->_tb_short}` (`uid`, `url`, `date`)"
-								. "VALUES (?, ?, ?)"
+							$title = get_page_info($data);
+							$shows = '0';
+
+							$query = "INSERT INTO `{$this->_tb_short}` (`uid`, `url`, `date`, `title`, `shows`)"
+								. "VALUES (?, ?, ?, ?, ?)"
 							;
 							$ins = $conexion->prepare($query);
-							$ins->bind_param( 'sss', $uid, $url, $date );
+							$ins->bind_param( 'sssss', $uid, $url, $date, $title, $shows );
 							$insert = $ins->execute();
 
 							if ( !$insert ) {
@@ -196,9 +194,9 @@ class Short
 	}
 
 	public function addVisita ($who) {
-		$actuales = $this->_consult('visitas', $who);
+		$actuales = $this->_consult('shows', $who);
 		$nueva = $actuales + 1;
-		$this->_update($who, 'visitas', $nueva);
+		$this->_update($who, 'shows', $nueva);
 	}
 
 	public function close (){

@@ -30,9 +30,10 @@
 		<form>
 			<input id="url" type="url" placeholder="http://" />
 			<button class="btn" id="shorter">Shorter</button>
+			<span id="error"></span>
 
 			<span id="elink" class="label label-inverse">
-	 			<a id="newLink" target="_blank"></a>
+	 			<input id="newLink" type="text" placeholder="Url corta" />
 			</span>
 
 			<span id="hasCopy">Se ha copiado al portapapeles</span>
@@ -45,7 +46,7 @@
 
 		<p>
 			<span>Proyecto desarollodado por <a href="http://github.com/dannegm">@dannegm</a>, no se te olvide seguir el proyecto en github.</span>
-			<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=dannegm&repo=Shorter&type=fork&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="260px" height="30px"></iframe>
+			<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=dannegm&repo=Shorter&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="260px" height="30px"></iframe>
 		</p>
 	</section>
 
@@ -58,7 +59,9 @@
 					<th>Url real</th>
 				</tr>
 			</thead>
-			<tbody id="lister"></tbody>
+			<tbody id="lister">
+				<tr id="loading"><td colspan="3">Cargando...</td></tr>
+			</tbody>
 		</table>
 	</section>
 </body>

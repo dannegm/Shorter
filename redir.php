@@ -20,7 +20,7 @@ if(
 	}
 
 	$short->addVisita($s);
-	header('User-Agent: DannegmBot/Alpha 1.0')
+	dnn_bot($url);
 	header('location: ' . $url);
 }
 ?>

@@ -8,9 +8,11 @@ function genKey (){
 	}
 	return $key;
 }
+//Validar si el parámetro pasado es una url
 function validate_url($url) {
     return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
 }
+//Validar el ancho de una cadena
 function long_text($txt, $long){
 	if ( strlen($txt) > $long ){
 		return false;
@@ -18,7 +20,7 @@ function long_text($txt, $long){
 		return true;
 	}
 }
-
+//Filtro de lista negra, regesa true si el parámetro pasado está dento de la lista negra
 function black_list_filter ($url) {
 	$domain = explode('/', $url);
 
@@ -27,6 +29,7 @@ function black_list_filter ($url) {
 		$black_list = Array(
 			'redtube.com',
 			'xvideos.com',
+				'www.xvideos.com',
 			'pornhub.com',
 			'poringa.com',
 			'dnn.im'
@@ -40,23 +43,33 @@ function black_list_filter ($url) {
 		return false;
 	}
 }
-
-function validate_site_exist ($url) {
+//DannegmBot, hace una petición http y obtiene los headers y el contenido del sitio
+function dnn_bot ($url) {
 	$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_USERAGENT, 'DannegmBot/Alpha 1.0');
 		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 	$resp = curl_exec($ch);
-		$site = explode("\n\r\n", $resp);
-		$headers = $site[0];
-		$body = $site[1];
+		$resp = explode("\n\r\n", $resp);
+		$headers = $resp[0];
+		$_headers = explode("\n", $headers);
+		$body = $resp[1];
 
 	curl_close($ch);
 
-	$headers_array = explode("\n", $headers);
-		$http_code = $headers_array[0];
+	return Array(
+		'http_code' => $_headers[0],
+		'headers' => $headers,
+		'body' => $body
+	);
+}
+//Valida si un sitio está disponible a todo publico
+function validate_site_exist ($url) {
+	$request = dnn_bot($url);
+	$http_code = $request['http_code'];
 
 	if ( preg_match('/OK/i', $http_code) ) {
 		return true;
@@ -64,8 +77,21 @@ function validate_site_exist ($url) {
 		return false;
 	}
 }
+//Obtiene información de un sitio
+function get_page_info ($url) {
+	$request = dnn_bot($url);
+	$page = $request['body'];
 
-// Poner texto a los meses
+	$title = '';
+	if (preg_match('/\<title\>/i', $page)){
+		$title = explode('<title>', $page);
+			$title = explode('</title>', $title[1]);
+			$title = $title[0];
+	}
+
+	return $title;
+}
+//Poner texto a los meses
 function format_mes($mess){
 	switch($mess){
 		case '01': $mess = 'Enero'; break;
@@ -83,7 +109,7 @@ function format_mes($mess){
 	}
 	return $mess;
 }
-
+//Formatea una fecha a partir del siguiente formato dd-mm-yy
 function format_date ( $_da ){
 	$_mess = "";
 	$_da = explode('-', $_da);
@@ -95,7 +121,6 @@ function format_date ( $_da ){
 	$res = $_dia . ' de ' . $_mess . ' del ' . $_ani;
 	return $res;
 }
-
 // Poner texto a los dias de la semana
 function set_day_text ( $day ){
 	switch( $day ){
@@ -109,7 +134,7 @@ function set_day_text ( $day ){
 	}
 	return $day;
 }
-
+//Obtiene las variables GET a partir de una cadena url
 function _httpget ($url){
 	$_getStrings = explode('?', $url);
 	$getStrings = $_getStrings[1];
@@ -125,5 +150,16 @@ function _httpget ($url){
 	}else{
 		return false;
 	}
+}
+
+function getHeaders($headers) {
+	$getKeys = explode("\n", $headers);
+	$get = array();
+
+	for($i = 1; $i < count($getKeys); $i++){
+		$tmp = explode(': ', $getKeys[$i]);
+		$get[$tmp[0]] = $tmp[1];
+	}
+	return $get;
 }
 ?>
